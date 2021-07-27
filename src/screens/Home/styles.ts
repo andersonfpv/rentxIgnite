@@ -5,7 +5,7 @@ export const Container = styled.View`
     flex: 1;
     
 
-    background-color: ${({ theme }) => theme.colors.main};
+    background-color: ${({ theme }) => theme.colors.line};
 `;
 export const Header = styled.View`
     width: 100%;
