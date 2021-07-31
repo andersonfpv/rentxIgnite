@@ -48,7 +48,7 @@ export function Scheduling() {
   const { car } = route.params as Params;
 
   function handleConfirmRental() {
-    if(!rentalPeriod.startFormatted || rentalPeriod.endFormatted){
+    if(!rentalPeriod.startFormatted || !rentalPeriod.endFormatted){
       Alert.alert('Selecione o intervalo para alugar.');
     }else{
       navigation.navigate('SchedulingDetails', {
