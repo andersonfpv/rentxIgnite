@@ -53,37 +53,41 @@ interface RentalPeriod{
 }
 
 export function SchedulingDetails() {
-  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+    const [loading, setLoading] = useState(false);
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
 
-  const theme = useTheme();  
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { car, dates } = route.params as Params;
+    const theme = useTheme();  
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { car, dates } = route.params as Params;
 
-  const rentTotal = Number(dates.length * car.rent.price);
+    const rentTotal = Number(dates.length * car.rent.price);
 
-  async function handleConfirmRental() {
-    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+    async function handleConfirmRental() {
+        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
-    const unavailable_dates = [
-        ...schedulesByCar.data.unavailable_dates,
-        ...dates,
-    ];
-    
-    await api.post('schedules_byuser', {
-        user_id: 1,
-        car,
-        startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-        endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
-    })
+        const unavailable_dates = [
+            ...schedulesByCar.data.unavailable_dates,
+            ...dates,
+        ];
+        
+        await api.post('schedules_byuser', {
+            user_id: 1,
+            car,
+            startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+            endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
+        })
 
-    api.put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates
-    })
-    .then(() => navigation.navigate('SchedulingComplete'))
-    .catch(() => Alert.alert('Não foi possível confirmar o agendamento.'))  
-  }
+        api.put(`/schedules_bycars/${car.id}`, {
+            id: car.id,
+            unavailable_dates
+        })
+        .then(() => navigation.navigate('SchedulingComplete'))
+        .catch(() => {
+            Alert.alert('Não foi possível confirmar o agendamento.');
+            setLoading(false);
+        })
+    }
 
   function handleBack(){
     navigation.goBack();
@@ -173,7 +177,9 @@ export function SchedulingDetails() {
             <Button 
                 title="Alugar Agora" 
                 color={theme.colors.success} 
-                onPress={handleConfirmRental} 
+                onPress={handleConfirmRental}
+                enabled={!loading}
+                loading={loading} 
             />
         </Footer>
 
