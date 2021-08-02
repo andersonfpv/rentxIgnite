@@ -70,6 +70,8 @@ export function SchedulingDetails() {
             ...schedulesByCar.data.unavailable_dates,
             ...dates,
         ];
+
+        setLoading(true);
         
         await api.post('schedules_byuser', {
             user_id: 1,
