@@ -180,6 +180,7 @@ export function SchedulingDetails() {
                 onPress={handleConfirmRental}
                 enabled={!loading}
                 loading={loading} 
+               
             />
         </Footer>
 
