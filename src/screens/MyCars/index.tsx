@@ -57,7 +57,7 @@ export function MyCars() {
             }
         }
         fetchCars();
-    },[])
+    },[]);
     return (
       <Container>
         <Header>
@@ -86,7 +86,7 @@ export function MyCars() {
 
                 <FlatList 
                     data={cars}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => String(item.id)}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item}) => (
                         <CarWrapper>
