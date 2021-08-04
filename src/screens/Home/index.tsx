@@ -5,6 +5,10 @@ import { StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import Animated, { 
+    useSharedValue
+ } from 'react-native-reanimated';
+
 import Logo from '../../assets/logo.svg';
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
@@ -24,6 +28,10 @@ import {
 export function Home(){
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
+    const positionY = useSharedValue(0);
+    const positionX = useSharedValue(0);
+
+
     const navigation = useNavigation();
     const theme = useTheme();
 
