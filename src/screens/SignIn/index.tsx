@@ -1,16 +1,18 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useTheme } from 'styled-components';
 
 import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
 
-import { useTheme } from 'styled-components';
 
 import {
   Container,
   Header,
   Title,
   SubTitle,
-  Footer
+  Footer,
+  Form
 } from './styles';
 
 export function SignIn() {
@@ -34,6 +36,11 @@ export function SignIn() {
           uma experiência incrível.
         </SubTitle>
       </Header>
+      
+      <Form>
+        <Input />
+
+      </Form>
 
       <Footer>
         <Button 
