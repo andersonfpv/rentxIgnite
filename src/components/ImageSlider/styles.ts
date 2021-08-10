@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-interface ImageIndexProsps {
+interface ImageIndexProps {
     active: boolean;
 }
 
@@ -15,7 +15,7 @@ export const ImageIndexes = styled.View`
     padding-right: 24px;
 `;
 
-export const ImageIndex = styled.View<ImageIndexProsps>`
+export const ImageIndex = styled.View<ImageIndexProps>`
     width: 6px;
     height: 6px;
     background-color: ${({ theme, active }) => 
