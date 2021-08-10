@@ -25,12 +25,12 @@ export function Input({
 
     function handleInputFocus() {
         setIsFocused(true);
-        setIsFilled(!!value);
+        
     }
 
     function handleInputBlur() {
         setIsFocused(false);
-
+        setIsFilled(!!value);
     }
 
     return (

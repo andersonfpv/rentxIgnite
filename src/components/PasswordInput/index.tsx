@@ -28,12 +28,12 @@ export function PasswordInput({
 
     function handleInputFocus() {
         setIsFocused(true);
-        setIsFilled(!!value);
+        
     }
 
     function handleInputBlur() {
         setIsFocused(false);
-
+        setIsFilled(!!value);
     }
 
     function handlePasswordVisibilityChange() {
