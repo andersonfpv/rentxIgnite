@@ -6,8 +6,12 @@ import { Bullet } from '../../../components/Bullet';
 import {
   Container,
   Header,
-  Steps
-} from './styles';
+  Steps,
+  Title,
+  Subtitle,
+  Form,
+  FormTitle
+} from "./styles";
 
 export function SignUpFirstStep() {
   const navigation = useNavigation();
@@ -25,6 +29,20 @@ export function SignUpFirstStep() {
           <Bullet />
         </Steps>
       </Header>
+
+      <Title>
+        Crie sua {'\n'}conta
+      </Title>
+      <Subtitle>
+        Faça seu cadastro de{'\n'}
+        forma rápida e fácil
+      </Subtitle>
+
+      <Form>
+        <FormTitle>
+          1. Dados
+        </FormTitle>
+      </Form>
     </Container>
   );
 }
