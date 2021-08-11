@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+import * as Yup from "yup";
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { PasswordInput } from '../../../components/PasswordInput';
@@ -9,6 +10,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 
 import {
@@ -21,14 +23,37 @@ import {
   FormTitle
 } from "./styles";
 
+interface Params {
+  user: {
+    name: string;
+    email: string;
+    driverLicense: string;
+  }
+
+}
+
 export function SignUpSecondStep() {
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const navigation = useNavigation();
+  const route = useRoute();
   const theme = useTheme();
+
+  const { user } = route.params as Params;
 
   function handleBack() {
     navigation.goBack();
   }
   
+  function handleRegister() {
+    if(!password || !passwordConfirm){
+      return Alert.alert('Informe a senha e a confirmação');
+    }
+
+    if(password != passwordConfirm){
+      return Alert.alert('As senhas não são iguais');
+    }
+  }
 
   return (
 
@@ -55,11 +80,15 @@ export function SignUpSecondStep() {
             <PasswordInput 
               iconName="lock" 
               placeholder="Senha" 
+              onChangeText={setPassword}
+              value={password}
             />
             
             <PasswordInput 
               iconName="lock" 
               placeholder="Repetir Senha" 
+              onChangeText={setPasswordConfirm}
+              value={passwordConfirm}
             />
 
           </Form>
