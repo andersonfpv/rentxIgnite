@@ -80,7 +80,6 @@ export function Scheduling() {
     })
   }
 
-
   return (
     <Container>
       <Header>
