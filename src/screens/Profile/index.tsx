@@ -37,7 +37,8 @@ import {
 } from './styles';
 
 export function Profile(){
-  const { user, signOut, updatedUser } = useAuth();
+  // const { user, signOut, updatedUser } = useAuth();
+  const { user } = useAuth();
 
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
   const [avatar, setAvatar] = useState(user.avatar);
@@ -79,55 +80,55 @@ export function Profile(){
     }
   }
 
-  async function handleProfileUpdate() {
-    try {
-      const schema = Yup.object().shape({
-        driverLicense: Yup.string()
-        .required('CNH é obrigatória'),
-        name: Yup.string()
-        .required('Nome é obrigatório')
-      });
+  // async function handleProfileUpdate() {
+  //   try {
+  //     const schema = Yup.object().shape({
+  //       driverLicense: Yup.string()
+  //       .required('CNH é obrigatória'),
+  //       name: Yup.string()
+  //       .required('Nome é obrigatório')
+  //     });
 
-      const data = { name, driverLicense };
-      await schema.validate(data);
+  //     const data = { name, driverLicense };
+  //     await schema.validate(data);
 
-      await updatedUser({
-        id: user.id,
-        user_id: user.user_id,
-        email: user.email,
-        name,
-        driver_license: driverLicense,
-        avatar,
-        token: user.token
-      });
+  //     await updatedUser({
+  //       id: user.id,
+  //       user_id: user.user_id,
+  //       email: user.email,
+  //       name,
+  //       driver_license: driverLicense,
+  //       avatar,
+  //       token: user.token
+  //     });
 
-      Alert.alert('Perfil atualizado!');
+  //     Alert.alert('Perfil atualizado!');
       
-    } catch (error) {
-      if(error instanceof Yup.ValidationError){
-        Alert.alert('Opa', error.message);      
-      }else{
-        Alert.alert('Não foi possível atualizar o perfil');      
-      }
-    }    
-  }
+  //   } catch (error) {
+  //     if(error instanceof Yup.ValidationError){
+  //       Alert.alert('Opa', error.message);      
+  //     }else{
+  //       Alert.alert('Não foi possível atualizar o perfil');      
+  //     }
+  //   }    
+  // }
 
-  async function handleSignOut() {
-    Alert.alert(
-      'Tem certeza?', 
-      'Se você sair, irá precisar de internet para conectar-se novamente.',
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => {},          
-        },
-        {
-          text: "Sair",
-          onPress: () => signOut()
-        }
-      ]
-    );
-  }
+  // async function handleSignOut() {
+  //   Alert.alert(
+  //     'Tem certeza?', 
+  //     'Se você sair, irá precisar de internet para conectar-se novamente.',
+  //     [
+  //       {
+  //         text: 'Cancelar',
+  //         onPress: () => {},          
+  //       },
+  //       {
+  //         text: "Sair",
+  //         onPress: () => signOut()
+  //       }
+  //     ]
+  //   );
+  // }
 
 
   return (
@@ -141,7 +142,7 @@ export function Profile(){
                 onPress={handleBack} 
               />
               <HeaderTitle>Editar Perfil</HeaderTitle>
-              <LogoutButton onPress={handleSignOut}>
+              <LogoutButton onPress={() => {}}>
                 <Feather 
                   name="power" size={24} 
                   color={theme.colors.shape} 
@@ -223,7 +224,7 @@ export function Profile(){
 
             <Button 
               title="Salvar alterações"
-              onPress={handleProfileUpdate}
+              onPress={() => {}}
             />
           </Content>
         </Container>
