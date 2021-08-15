@@ -15,5 +15,5 @@ export const database = new Database({
     User,
     // Car
   ],
-  actionsEnabled: true,
+  // actionsEnabled: true,
 });
