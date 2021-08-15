@@ -113,22 +113,22 @@ export function Profile(){
   //   }    
   // }
 
-  // async function handleSignOut() {
-  //   Alert.alert(
-  //     'Tem certeza?', 
-  //     'Se você sair, irá precisar de internet para conectar-se novamente.',
-  //     [
-  //       {
-  //         text: 'Cancelar',
-  //         onPress: () => {},          
-  //       },
-  //       {
-  //         text: "Sair",
-  //         onPress: () => signOut()
-  //       }
-  //     ]
-  //   );
-  // }
+  async function handleSignOut() {
+    // Alert.alert(
+    //   'Tem certeza?', 
+    //   'Se você sair, irá precisar de internet para conectar-se novamente.',
+    //   [
+    //     {
+    //       text: 'Cancelar',
+    //       onPress: () => {},          
+    //     },
+    //     {
+    //       text: "Sair",
+    //       onPress: () => signOut()
+    //     }
+    //   ]
+    // );
+  }
 
 
   return (
@@ -142,7 +142,7 @@ export function Profile(){
                 onPress={handleBack} 
               />
               <HeaderTitle>Editar Perfil</HeaderTitle>
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={handleSignOut}>
                 <Feather 
                   name="power" size={24} 
                   color={theme.colors.shape} 
