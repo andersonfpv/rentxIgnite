@@ -56,7 +56,7 @@ export function Profile(){
 
   function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit'){
     if(netInfo.isConnected === false && optionSelected === 'passwordEdit'){
-      Alert.alert('Para mudar a senha, conecte-se a Internet');
+      Alert.alert('Você está Offline', 'Para mudar a senha, conecte-se a Internet');
     }else{
       setOption(optionSelected);
     }
