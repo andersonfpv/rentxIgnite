@@ -14,7 +14,7 @@ import {
   Period,
   Price,
   Type,
-  CardImage
+  CarImage
 } from './styles';
 
 interface Props extends RectButtonProps {
@@ -43,7 +43,7 @@ export function Car({ data, ...rest }: Props) {
             </About>
         </Details>
 
-        <CardImage 
+        <CarImage 
             source={{ uri: data.thumbnail }}
             resizeMode="contain"
         />
