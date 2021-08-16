@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -55,7 +56,9 @@ interface RentalPeriod{
 export function SchedulingDetails() {
     const [loading, setLoading] = useState(false);
     const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+    const [carUpdate, setCarUpdate] = useState<CarDTO>({} as CarDTO); 
 
+    const netInfo = useNetInfo();
     const theme = useTheme();  
     const navigation = useNavigation();
     const route = useRoute();
@@ -64,25 +67,14 @@ export function SchedulingDetails() {
     const rentTotal = Number(dates.length * car.price);
 
     async function handleConfirmRental() {
-        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
-
-        const unavailable_dates = [
-            ...schedulesByCar.data.unavailable_dates,
-            ...dates,
-        ];
-
         setLoading(true);
         
-        await api.post('schedules_byuser', {
+        await api.post('rentals', {
             user_id: 1,
-            car,
-            startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-            endDate: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
-        })
-
-        api.put(`/schedules_bycars/${car.id}`, {
-            id: car.id,
-            unavailable_dates
+            car_id: car.id,
+            start_Date: new Date(dates[0]),
+            end_Date: new Date(dates[dates.length - 1]),
+            total: rentTotal
         })
         .then(() => {
             navigation.navigate('Confirmation', {
@@ -106,7 +98,18 @@ export function SchedulingDetails() {
           start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
           end: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy'),
       })
-  },[])
+  },[]);
+
+   useEffect(() => {
+     async function fetchOnlineData() {
+       const response = await api.get(`cars/${car.id}`);
+       setCarUpdate(response.data);
+     }
+
+     if (netInfo.isConnected === true) {
+       fetchOnlineData();
+     }
+   }, [netInfo.isConnected]);
 
   return (
     <Container>
@@ -115,8 +118,11 @@ export function SchedulingDetails() {
         </Header>
 
         <CarImages>
-            <ImageSlider 
-                imagesUrl={car.photos} 
+           <ImageSlider 
+                imagesUrl={
+                    !!carUpdate.photos ? 
+                    carUpdate.photos : [{ id: car.thumbnail, photo: car.thumbnail }]
+                }          
             />
         </CarImages>
 
@@ -132,18 +138,20 @@ export function SchedulingDetails() {
                 </Rent>
             </Details>
 
-            <Accessories>
-                {
-                    car.accessories.map(accessory => (
+            {
+                carUpdate.accessories &&
+                <Accessories>
+                    {
+                    carUpdate.accessories.map(accessory => (
                         <Accessory 
-                            key={accessory.type}
-                            name={accessory.name}
-                            icon={getAccessoryIcon(accessory.type)}
+                        key={accessory.type}
+                        name={accessory.name}
+                        icon={getAccessoryIcon(accessory.type)}
                         />
                     ))
-                }
-                
-            </Accessories>
+                    }
+                </Accessories>
+            }
 
             <RentalPeriod>
                 <CalendaIcon>
